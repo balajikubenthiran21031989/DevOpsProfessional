@@ -14,7 +14,7 @@ pipeline {
             sh 'docker tag kkbalajius/devops-capstone-project1 kkbalajius/devops-capstone-project1'
             sh 'docker login -u "kkbalajius" -p "Kingwith8@l@j!" docker.io'
             sh 'docker push kkbalajius/devops-capstone-project1'
-            echo 'Dockerise the production app....'
+            echo 'Dockerize the production app....'
          }
       }
       stage('Run container') {
@@ -29,28 +29,27 @@ pipeline {
          steps {
             sh "hostname -I"
             sh "curl -I localhost:85"
-            sh "ansible-playbook website-checker.yaml"
+            sh "ansible-playbook website-checker.yml"
             echo 'Website is running fine on 85 port....'
          }
       }
       stage('clean test server') {
          agent { label 'k8s-slave' }
          steps {
-            sh "ansible-playbook clean-docker.yaml"
+            sh "ansible-playbook clean-docker.yml"
          }
       }
       stage('Deploy to prod server') {
          agent { label 'k8s-master' }
          steps {
                     git 'https://github.com/balajikubenthiran21031989/DevOpsProfessional.git'
-                    sh "kubectl delete -f deployment.yaml"
-                    sh "kubectl delete -f service.yaml"
+                    sh "kubectl delete -f deployment.yml"
+                    sh "kubectl delete -f service.yml"
                     sh "docker rm -f \$(sudo docker ps -a -q)"
                     sh "docker rmi -f \$(docker images -q)"
-                    sh "kubectl apply -f deployment.yaml"
-                    sh "kubectl apply -f service.yaml"
+                    sh "kubectl apply -f deployment.yml"
+                    sh "kubectl apply -f service.yml"
                 }
             }
         }
    }
-
