@@ -1,0 +1,9 @@
+#Java Installation on all nodes
+- hosts: all
+  become: yes
+  name: Install Java on all Nodes
+  tasks:
+    - name: Installing Java
+      apt:  name=openjdk-11-jre update_cache=yes state=latest force_apt_get=yes
+    - name: Installing font configuration jenkins
+      apt:  name=fontconfig update_cache=yes state=latest force_apt_get=yes

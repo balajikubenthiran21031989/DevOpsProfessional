@@ -1,0 +1,9 @@
+---
+- name: Website test
+  hosts: k8s-master
+  become: true
+
+  tasks:
+    - name: Check if website is running on 85 port.
+      uri:
+        url: "http://127.0.0.1:85/"

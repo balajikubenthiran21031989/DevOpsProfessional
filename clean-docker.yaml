@@ -1,0 +1,13 @@
+---
+- name: clean production before new deployment
+  hosts: k8s-master
+  become: true
+
+  tasks:
+  - name: remove running container
+    shell: docker rm -f $(docker ps -q)
+    ignore_errors: true
+
+  - name: remove image
+    shell: docker rmi -f $(docker images -q)
+    ignore_errors: true
